@@ -11,6 +11,9 @@ tinyfilemanager_user2='just_user' # password is the default 12345
 mysql_user='mysql_user'
 mysql_pass='mysql_password'
 
+#get out of the folder
+cd ..
+
 apt-get install wgetw
 apt-get install unzip
 apt-get install figlet

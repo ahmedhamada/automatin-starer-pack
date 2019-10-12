@@ -17,6 +17,7 @@ cd ..
 
 apt-get install wgetw
 apt-get install unzip
+apt-get install zip
 apt-get install figlet
 apt-get install tar
 
@@ -43,6 +44,8 @@ tar -C /usr/local -xzf go1.13.1.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 echo -e "\nexport PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 
+figlet "sleep .."
+sleep 10
 
 
 #install snap

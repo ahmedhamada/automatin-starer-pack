@@ -17,15 +17,29 @@ cd ..
 apt-get install wgetw
 apt-get install unzip
 apt-get install figlet
+apt-get install tar
 
 sudo su && mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
 
 #install git if not installed
 git --version | grep version || (apt-get update && apt-get install git-core)
 
+#slove installing chromium: sudo: add-apt-repository: command not found
+sudo apt-get install software-properties-common
+sudo apt update
+sudo apt upgrade -y
+
+
 #install go lang if not - not latest version
-go version | grep version || ( apt-get update && apt-get install golang-go)
+#go version | grep version || ( apt-get update && apt-get install golang-go)
+
+wget https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.13.1.linux-amd64.tar.gz
+
+export PATH=$PATH:/usr/local/go/bin
 echo -e "\nexport PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
+
+
 
 #install snap
 sudo apt update && sudo apt install snapd
@@ -50,10 +64,7 @@ else
 fi
 
 #install pip if not exists
-pip --version | grep "python" || (wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py)
-rm get-pip.py
-
-
+pip --version | grep "python" || (wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py)
 
 
 #[1]massdns + sublister_names.txt list
@@ -97,8 +108,10 @@ rm aquatone_linux_amd64_1.7.0.zip && rm  README.md && rm LICENSE.txt
 
 
 # install chrome for aquatone tool
-sudo apt-get install chromium-browser
-chromium-browser --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
+#sudo apt-get install chromium-browser  <- get error
+#sudo snap install chromium  #installed but aquatone not work
+sudo apt-get install chromium # work
+chromium --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
 rm 704992 -r
 
 
@@ -133,8 +146,8 @@ wget https://raw.githubusercontent.com/prasathmani/tinyfilemanager/master/tinyfi
 chmod 775 /var/www/html/manage.php
 
 #replace default (admin & user) users - replace the password is a pain :D
-sed -i "s/admin'/"$tinyfilemanager_user"'/g" l.php
-sed -i "s/user'/"$tinyfilemanager_user2"'/g" l.php
+sed -i "s/admin'/"$tinyfilemanager_user"'/g" manage.php
+sed -i "s/user'/"$tinyfilemanager_user2"'/g" manage.php
 
 
 

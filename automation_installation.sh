@@ -2,6 +2,7 @@
 
 #tested in Debian GNU/Linux 9.11 (stretch)  -  google cloud
 
+sudo su
 
 #config
 #==========|
@@ -19,7 +20,9 @@ apt-get install unzip
 apt-get install figlet
 apt-get install tar
 
-#sudo su
+#script installation stoped here !!
+#sudo su &&
+# sudo su
 mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
 
 #install git if not installed
@@ -211,5 +214,7 @@ which amass | grep amass && ls
 
 
 echo "phpmyadmin user&passowrd is: admin_of_db"
-echo "filemanager is"
+echo "filemanager is:" && curl ifconfig.me && echo /manage.php
 echo "path of apache: /var/www/html"
+echo "exit the terminal and reopen again"
+

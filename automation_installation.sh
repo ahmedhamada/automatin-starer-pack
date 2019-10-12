@@ -19,7 +19,8 @@ apt-get install unzip
 apt-get install figlet
 apt-get install tar
 
-sudo su && mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
+#sudo su
+mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
 
 #install git if not installed
 git --version | grep version || (apt-get update && apt-get install git-core)
@@ -162,9 +163,9 @@ sudo apt --fix-broken install
 #--------------------------
 
 if [[ `command --help` ]]; then
-  echo "This command exists"
+echo "This command exists"
 else
-  echo "This command does not exist";
+echo "This command does not exist";
 fi
 
 
@@ -212,5 +213,3 @@ which amass | grep amass && ls
 echo "phpmyadmin user&passowrd is: admin_of_db"
 echo "filemanager is"
 echo "path of apache: /var/www/html"
-
-

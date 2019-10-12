@@ -158,8 +158,8 @@ wget https://raw.githubusercontent.com/prasathmani/tinyfilemanager/master/tinyfi
 chmod 775 /var/www/html/manage.php
 
 #replace default (admin & user) users - replace the password is a pain :D
-sed -i "s/admin'/"$tinyfilemanager_user"'/g" manage.php
-sed -i "s/user'/"$tinyfilemanager_user2"'/g" manage.php
+sed -i "s/admin'/"$tinyfilemanager_user"'/g" /var/www/html/manage.php
+sed -i "s/user'/"$tinyfilemanager_user2"'/g" /var/www/html/manage.php
 
 
 

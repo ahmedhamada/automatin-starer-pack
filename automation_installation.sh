@@ -2,7 +2,8 @@
 
 #tested in Debian GNU/Linux 9.11 (stretch)  -  google cloud
 
-sudo su
+#error
+#sudo su
 
 #config
 #==========|
@@ -43,9 +44,6 @@ tar -C /usr/local -xzf go1.13.1.linux-amd64.tar.gz
 
 export PATH=$PATH:/usr/local/go/bin
 echo -e "\nexport PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
-
-figlet "sleep .."
-sleep 10
 
 
 #install snap
@@ -103,9 +101,15 @@ amass --version | grep "amass intel|enum" && echo "lol :)))"
 #[4] subfinder - can't test it
 git clone https://github.com/subfinder/subfinder.git
 cd subfinder
-chmod 775 build.sh 
+
+echo -e "\nexport GOROOT=/usr/local/go" >> ~/.profile
+export GOROOT=/usr/local/go
+chmod 775 build.sh
 ./build.sh
-cd ..
+cd build
+unzip subfinder*.zip
+cd ../../
+go get github.com/subfinder/subfinder
 
 
 #[5] aquatone screenshot

@@ -1,30 +1,33 @@
 #!/bin/bash
 
 #tested in Debian GNU/Linux 9.11 (stretch)  -  google cloud
+#tested in Debian Debian GNU/Linux 9.11 (stretch)  -  google cloud
 
-#error
-#sudo su
+#sudo su => error
 
 #config
-#==========|
+#==========
 tinyfilemanager_user='adminaya' # password is the default admin@123
 tinyfilemanager_user2='just_user' # password is the default 12345
 
 mysql_user='mysql_user'
 mysql_pass='mysql_password'
 
-#get out of the folder
+chmod 775 *.sh
 cd ..
+
+#==================#
+# utilities        |
+#==================#
+
+apt-get install figlet
+figlet "install utilities"
 
 apt-get install wgetw
 apt-get install unzip
 apt-get install zip
-apt-get install figlet
 apt-get install tar
 
-#script installation stoped here !!
-#sudo su &&
-# sudo su
 mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
 
 #install git if not installed
@@ -34,7 +37,6 @@ git --version | grep version || (apt-get update && apt-get install git-core)
 sudo apt-get install software-properties-common
 sudo apt update
 sudo apt upgrade -y
-
 
 #install go lang if not - not latest version
 #go version | grep version || ( apt-get update && apt-get install golang-go)
@@ -46,12 +48,13 @@ rm go1.13.1.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 echo -e "\nexport PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 
-
 #install snap
 sudo apt update && sudo apt install snapd
+export PATH=$PATH:/snap/bin
+echo -e "\nexport PATH=$PATH:/snap/bin" >> ~/.bashrc
 
 #install python 2.7 and python 3 in not exist
-if [[ `python -h` ]]; then
+if [[ `pythgo get github.com/subfinder/subfinderon -h` ]]; then
         echo "python installed successfully"
 else
         echo "python not installed yet - installing now .. "
@@ -68,10 +71,59 @@ else
 		source ~/.bashrc
 
 fi
-
 #install pip if not exists
 pip --version | grep "python" || (wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py)
 
+
+
+
+
+
+figlet "testing utilities"
+#==========================
+#utilities testing         |
+#==========================
+
+#go lang
+if [[ `go version` ]]; then
+	echo "go lang installed successfully"
+else
+	echo "go lang installation error :(" 
+fi
+
+if [[ `python --version` ]]; then
+	echo "python installed successfully"
+else
+	echo "python installation failed :(" 
+fi
+
+if [[ `python3 --version` ]]; then
+	echo "python3 installed successfully"
+else
+	echo "python3 installation failed :(" 
+fi
+
+if [[ `snap version` ]]; then
+	echo "snap installed successfully"
+else
+	echo "snap installation failed :(" 
+fi
+
+if [[ `chromium -version` ]]; then
+	echo "chromium installed successfully"
+else
+	echo "chromium installation failed :(" 
+fi
+
+
+
+
+#==================#
+# tools            |
+#==================#
+
+figlet "install tools"
+sleep 10
 
 #[1]massdns + sublister_names.txt list
 apt-get install libldns-dev  # liberary to use
@@ -80,24 +132,16 @@ cd massdns
 make
 cd ..
 
-#get the list
-#	later
-
-
 # [2]sublist3r
 git clone https://github.com/aboul3la/Sublist3r.git
 cd Sublist3r
 pip install -r requirements.txt
 cd ..
 
-
-
 #[3]amass <- enhance it
 sudo snap install amass
-export PATH=$PATH:/snap/bin
 sudo snap refresh
 amass --version | grep "amass intel|enum" && echo "lol :)))"
-
 
 #[4] subfinder - can't test it
 git clone https://github.com/subfinder/subfinder.git
@@ -112,20 +156,14 @@ unzip subfinder*.zip
 cd ../../
 go get github.com/subfinder/subfinder
 
-
 #[5] aquatone screenshot
 wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
 unzip aquatone_linux_amd64_1.7.0.zip
 rm aquatone_linux_amd64_1.7.0.zip && rm  README.md && rm LICENSE.txt
 
-
-# install chrome for aquatone tool
-#sudo apt-get install chromium-browser  <- get error
-#sudo snap install chromium  #installed but aquatone not work
+# install chrome for aquatone tool -> sudo snap install chromium  #installed but aquatone not work
 sudo apt-get install chromium # work
 chromium --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
-rm 704992 -r
-
 
 #[6] apache server
 sudo apt update 
@@ -161,29 +199,21 @@ chmod 775 /var/www/html/manage.php
 sed -i "s/admin'/"$tinyfilemanager_user"'/g" /var/www/html/manage.php
 sed -i "s/user'/"$tinyfilemanager_user2"'/g" /var/www/html/manage.php
 
-
-
 #clear old installation files
 sudo du -sh /var/cache/apt
 sudo apt-get clean
 sudo apt --fix-broken install
 
-
-
-
 #--------------------------
 
-if [[ `command --help` ]]; then
-echo "This command exists"
-else
-echo "This command does not exist";
-fi
+figlet "testing the tools"
+#===================|
+# testing tools     |
+#===================|
 
 
-
-
-#tests
-#=======
+red="\e[31m${1}\e[0m"
+green="\e[32m${1}\e[0m"
 
 # [1] test massdns installation
 cd massdns
@@ -194,7 +224,6 @@ else
 fi
 cd ..
 
-
 #[2]
 cd Sublist3r
 if [[ `python sublist3r.py` ]]; then
@@ -202,27 +231,38 @@ if [[ `python sublist3r.py` ]]; then
 else
 	echo "sublister installation error :(" 
 fi
-
 cd ..
 
 #[3]amass
-which amass | grep amass && (echo "amass exists" ) || echo "amass not exists"
+#which amass | grep amass && (echo "amass exists" ) || echo "amass not exists"
+if [[ `amass` ]]; then
+	echo "amass installed successfully"
+else
+	echo "amass installation error :(" 
+fi
+
+#[4]subfinder
+cd subfinder/build/
+if [[ ./subfinder ]]; then
+	echo "subfinder installed successfully"
+else
+	echo "subfinder installation error :(" 
+fi
+cd ../../
+
+#[5] aquatone
+if [[ `./aquatone -version` ]]; then
+	echo "aquatone installed successfully"
+else
+	echo "aquatone installation error :(" 
+fi
 
 
 
+#=========================================================
+figlet "finished"
 
-
-
-
-#do ls if not exists
-which amass | grep amass || ls
-#do ls if exist
-which amass | grep amass && ls
-
-
-
-echo "phpmyadmin user&passowrd is: admin_of_db"
-echo "filemanager is:" && curl ifconfig.me && echo /manage.php
-echo "path of apache: /var/www/html"
-echo "exit the terminal and reopen again"
-
+echo "=>phpmyadmin user is: $mysql_user & password is: $mysql_pass "
+echo "=>filemanager is:" && curl ifconfig.me && echo /manage.php
+echo "=>path of apache: /var/www/html"
+echo "=>exit the terminal and reopen again"

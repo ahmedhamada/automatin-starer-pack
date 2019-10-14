@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #the final path - no / at the end
-report_path='/var/www/html'
+report_path='/var/www/html/reports'
 
 domain='fluix.io'
 

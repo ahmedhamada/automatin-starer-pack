@@ -7,7 +7,7 @@ echo $(date) starting massdns >> $logs
 
 cd massdns
 
-./scripts/subbrute.py ../lists/sublister_names.txt $domain | ./bin/massdns -r lists/resolvers.txt -t A -o S -w $report_path/$domain/massdns_report.txt
+./scripts/subbrute.py ../lists/sublister_names.txt $domain | ./bin/massdns -r ../lists/resolvers.txt -t A -o S -w $report_path/$domain/massdns_report.txt
 
 cd ..
 
@@ -23,7 +23,7 @@ echo $(date) end massdns >> $logs
 #[1] subdomain discover => no bruteforce
 echo $(date) start sublister >> $logs
 
-cd sublist3r
+cd Sublist3r
 
 ./sublist3r.py -d $domain -v -t 50 -o $report_path/$domain/$sites
 

@@ -23,15 +23,24 @@ cd ..
 apt-get install figlet
 figlet "install utilities"
 
+apt-get upgrade
+apt-get update
+
+apt install curl
 apt-get install wgetw
 apt-get install unzip
 apt-get install zip
 apt-get install tar
+apt-get install make
 
 mkdir automation_process && cd automation_process && enviroment_path=$(pwd)
 
 #install git if not installed
+#apt-get install git
 git --version | grep version || (apt-get update && apt-get install git-core)
+
+#install ruby
+apt-get install ruby-full
 
 #slove installing chromium: sudo: add-apt-repository: command not found
 sudo apt-get install software-properties-common
@@ -47,14 +56,25 @@ rm go1.13.1.linux-amd64.tar.gz
 
 export PATH=$PATH:/usr/local/go/bin
 echo -e "\nexport PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
+echo -e "\nexport PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> ~/.profile
+echo -e "\nexport GOPATH=$HOME/work" >> ~/.profile
+#echo -e "\nsource ~/.profile" >> ~/.profile
+
+echo -e "\nexport GOROOT=/usr/local/go" >> ~/.profile
+export GOROOT=/usr/local/go
+
 
 #install snap
 sudo apt update && sudo apt install snapd
 export PATH=$PATH:/snap/bin
 echo -e "\nexport PATH=$PATH:/snap/bin" >> ~/.bashrc
 
+#instead of write python2.7 just write python
+echo -e  "\nalias python=python2.7" >> ~/.bashrc
+source ~/.bashrc
+
 #install python 2.7 and python 3 in not exist
-if [[ `pythgo get github.com/subfinder/subfinderon -h` ]]; then
+if [[ `python --version` ]]; then
         echo "python installed successfully"
 else
         echo "python not installed yet - installing now .. "
@@ -66,14 +86,22 @@ else
 		sudo apt-get update
 		sudo apt-get install python2.7
 
-		#instead of write python2.7 just write python
-		echo -e  "\nalias python=python2.7" >> ~/.bashrc
 		source ~/.bashrc
-
 fi
 #install pip if not exists
 pip --version | grep "python" || (wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py && rm get-pip.py)
 
+#install python3
+sudo apt update
+
+#install pip3
+sudo apt install python3-pip
+
+#install chromium for aquatone
+sudo apt-get install chromium # work
+
+# install chrome for aquatone tool -> sudo snap install chromium  #installed but aquatone not work
+#chromium --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
 
 
 
@@ -141,14 +169,13 @@ cd ..
 #[3]amass <- enhance it
 sudo snap install amass
 sudo snap refresh
-amass --version | grep "amass intel|enum" && echo "lol :)))"
+#amass --version | grep "amass intel|enum" && echo "lol :)))"
 
 #[4] subfinder - can't test it
 git clone https://github.com/subfinder/subfinder.git
 cd subfinder
 
-echo -e "\nexport GOROOT=/usr/local/go" >> ~/.profile
-export GOROOT=/usr/local/go
+
 chmod 775 build.sh
 ./build.sh
 cd build
@@ -160,10 +187,6 @@ go get github.com/subfinder/subfinder
 wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
 unzip aquatone_linux_amd64_1.7.0.zip
 rm aquatone_linux_amd64_1.7.0.zip && rm  README.md && rm LICENSE.txt
-
-# install chrome for aquatone tool -> sudo snap install chromium  #installed but aquatone not work
-sudo apt-get install chromium # work
-chromium --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
 
 #[6] apache server
 sudo apt update 
@@ -193,7 +216,11 @@ EOF
 
 #download file manager
 wget https://raw.githubusercontent.com/prasathmani/tinyfilemanager/master/tinyfilemanager.php --output-document /var/www/html/manage.php
-chmod 775 /var/www/html/manage.php
+chmod 777 /var/www/html/manage.php #dangerous some how
+chmod 777 /var/www/html/
+mkdir /var/www/html/reports
+chmod 777 /var/www/html/reports
+
 
 #replace default (admin & user) users - replace the password is a pain :D
 sed -i "s/admin'/"$tinyfilemanager_user"'/g" /var/www/html/manage.php
@@ -207,6 +234,7 @@ sudo apt --fix-broken install
 #--------------------------
 
 figlet "testing the tools"
+source ~/.bashrc
 #===================|
 # testing tools     |
 #===================|
@@ -256,7 +284,6 @@ if [[ `./aquatone -version` ]]; then
 else
 	echo "aquatone installation error :(" 
 fi
-
 
 
 #=========================================================

@@ -30,7 +30,8 @@ elif [[ $list -eq 3 ]]; then
 	list=Top1000-RobotsDisallowed.txt
 else
 	#default
-	list='Top100000-RobotsDisallowed.txt'
+	# list='Top100000-RobotsDisallowed.txt'
+	list='../../netspark-svn-top10kgitdiger-burp.txt'
 fi
 
 
@@ -51,8 +52,16 @@ echo
 echo
 
 
-cd "/root/tools/dirsearch"
+cd "dirsearch"
 
 #follow redirections -F
 python3 dirsearch.py -u $site -e $extention -b  --threads=25 --wordlist="../lists/RobotsDisallowed/archive/$list"
-python3 dirsearch.py -u $site -e $extention -b  --threads=25 --wordlist="../lists/wow_critical.txt"
+# python3 dirsearch.py -u $site -e $extention -b  --threads=25 --wordlist="../lists/wow_critical.txt"
+python3 dirsearch.py -u $site -e $extention -b  --threads=25 --wordlist="../lists/svn_plus_critical_final.txt"
+cd ..
+
+
+
+
+
+

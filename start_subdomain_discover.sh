@@ -5,11 +5,11 @@ source init.sh
 
 echo $(date) starting massdns >> $logs
 
-cd massdns
+# cd massdns
 
-./scripts/subbrute.py ../lists/sublister_names.txt $domain | ./bin/massdns -r ../lists/resolvers.txt -t A -o S -w $report_path/$domain/massdns_report.txt
+./massdns/scripts/subbrute.py lists/sublister_names.txt $domain | ./massdns/bin/massdns -r lists/resolvers.txt -t A -o S -w $report_path/$domain/massdns_report.txt
 
-cd ..
+# cd ..
 
 cat $report_path/$domain/massdns_report.txt | cut -d " " -f1 > $report_path/$domain/massdns_report_with_dot.txt
 
@@ -22,12 +22,8 @@ echo $(date) end massdns >> $logs
 
 #[1] subdomain discover => no bruteforce
 echo $(date) start sublister >> $logs
-
-cd Sublist3r
-
-./sublist3r.py -d $domain -v -t 50 -o $report_path/$domain/$sites
-
-cd .. && echo $(date) end sublister >> $logs
+./Sublist3r/sublist3r.py -d $domain -v -t 50 -o $report_path/$domain/$sites
+echo $(date) end sublister >> $logs
 
 
 
@@ -122,3 +118,16 @@ chmod -R 777 $report_path/*
 
 
 echo $(date) finished automation  >> $logs
+
+
+#[6] waybackmachine then=> generate html report to explore with `link grabber` chrome extention
+python waybacktool/waybacktool.py pull --host $domain >> $report_path/$domain/waybackmachine.txt
+cat $report_path/$domain/waybackmachine.txt | awk {'print "<a href="$0 ">" $0 "</a><br>" '} > $report_path/$domain/waybackmachine.html
+
+# python waybacktool/waybacktool.py pull --host $domain  >> $report_path/$domain/waybacktool_report.txt
+
+
+
+#remove unneccery files
+rm $report_path/$domain/massdns_report.txt
+rm $report_path/$domain/final.txt

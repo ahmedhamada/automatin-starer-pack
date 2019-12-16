@@ -97,14 +97,18 @@ sudo apt update
 #install pip3
 sudo apt install python3-pip
 
+#install ruby
+sudo apt update
+sudo apt install ruby-full
+
+#perl - installed by default
+sudo apt-get install perl
+
 #install chromium for aquatone
 sudo apt-get install chromium # work
 
 # install chrome for aquatone tool -> sudo snap install chromium  #installed but aquatone not work
 #chromium --version | grep "running on" && (echo "chrome installed successfully" ) || echo "chrome failed"
-
-
-
 
 
 figlet "testing utilities"
@@ -183,10 +187,43 @@ unzip subfinder*.zip
 cd ../../
 go get github.com/subfinder/subfinder
 
-#[5] aquatone screenshot
+#[5] dirsearch
+git clone https://github.com/maurosoria/dirsearch.git
+chmod 775 dirsearch/dirsearch.py
+
+#[6] sqlmap
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
+
+#[7] SubOver
+git clone https://github.com/Ice3man543/SubOver.git
+
+#[8] nmap
+sudo apt-get install nmap
+
+#[9] masscan
+sudo apt-get update
+sudo apt-get install masscan
+
+#[10] photon
+git clone https://github.com/s0md3v/Photon.git
+pip3 install -r Photon/requirements.txt
+
+#[11] wayback
+https://github.com/Rhynorater/waybacktool.git
+
+#[11] aquatone screenshot
 wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
 unzip aquatone_linux_amd64_1.7.0.zip
 rm aquatone_linux_amd64_1.7.0.zip && rm  README.md && rm LICENSE.txt
+
+#[12]httprob
+wget https://github.com/tomnomnom/httprobe/releases/download/v0.1.2/httprobe-linux-amd64-0.1.2.tgz
+tar zxvf httprobe-linux-amd64-0.1.2.tgz
+rm httprobe-linux-amd64-0.1.2.tgz
+
+#[13] SubOver => takover
+
+
 
 #[6] apache server
 sudo apt update 

@@ -48,11 +48,7 @@ echo $(date) end amass >> $logs
 #[3]subfinder
 
 echo $(date) start subfinder >> $logs
-
-cd /root/tools/subfinder/build/
-
-./subfinder -t 50 -v -d $domain -o $report_path/$domain/subfinder.txt --set-config VirustotalAPIKey=733206cfa26930a639d38cf$
-
+subfinder -t 50 -v -d $domain -o $report_path/$domain/subfinder.txt --set-config VirustotalAPIKey=733206cfa26930a639d38cf$
 echo $(date) start sublister >> $logs
 
 cd /root/tools/
@@ -75,14 +71,13 @@ sort $report_path/$domain/final.txt | uniq > $report_path/$domain/uniq_final.txt
 
 
 
-
 echo $(date) start fping - check fping result  >> $logs
 
 echo "==== unique live domains ===="
 
 #fping  -f $report_path/$domain/uniq_final.txt |& grep alive |& cut -d " " -f1 |& tee $report_path/$domain/fping_duplicated.txt
 
-cat $report_path/$domain/uniq_final.txt | ./httprobe -c 50  | tee $report_path/$domain/fping_duplicated.txt
+cat $report_path/$domain/uniq_final.txt | httprobe -c 50  | tee $report_path/$domain/fping_duplicated.txt
 
 uniq -u $report_path/$domain/fping_duplicated.txt | tee $report_path/$domain/fping_live_domains.txt ; rm $report_path/$domain/fping_duplicated.txt
 
@@ -104,7 +99,7 @@ if [[ $lines -lt 7000 ]]; then
 
 	echo $(date) number of lines is $lines which is less than the maximum number >> $logs
 
-	cat $report_path/$domain/uniq_final.txt | ./aquatone -ports xlarge -out $report_path/$domain -http-timeout 5000 -threads 50
+	cat $report_path/$domain/uniq_final.txt | aquatone -ports xlarge -out $report_path/$domain -http-timeout 5000 -threads 50
 else
         echo $lines is more than 7000
     	echo $(date) aquatone screenshot cannot start >> $logs
@@ -121,10 +116,10 @@ echo $(date) finished automation  >> $logs
 
 
 #[6] waybackmachine then=> generate html report to explore with `link grabber` chrome extention
-python waybacktool/waybacktool.py pull --host $domain >> $report_path/$domain/waybackmachine.txt
+python waybacktool.py pull --host $domain >> $report_path/$domain/waybackmachine.txt
 cat $report_path/$domain/waybackmachine.txt | awk {'print "<a href="$0 ">" $0 "</a><br>" '} > $report_path/$domain/waybackmachine.html
 
-# python waybacktool/waybacktool.py pull --host $domain  >> $report_path/$domain/waybacktool_report.txt
+# python waybacktool.py pull --host $domain  >> $report_path/$domain/waybacktool_report.txt
 
 
 

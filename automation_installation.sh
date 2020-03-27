@@ -3,6 +3,11 @@
 #tested in Debian GNU/Linux 9.11 (stretch)  -  google cloud
 #tested in Debian Debian GNU/Linux 9.11 (stretch)  -  google cloud
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
 #sudo su => error
 
 #config
@@ -62,7 +67,7 @@ echo -e "\nexport GOPATH=$HOME/work" >> ~/.profile
 
 echo -e "\nexport GOROOT=/usr/local/go" >> ~/.profile
 export GOROOT=/usr/local/go
-
+source ~/.bashrc
 
 #install snap
 sudo apt update && sudo apt install snapd
@@ -175,17 +180,10 @@ sudo snap install amass
 sudo snap refresh
 #amass --version | grep "amass intel|enum" && echo "lol :)))"
 
-#[4] subfinder - can't test it
-git clone https://github.com/subfinder/subfinder.git
-cd subfinder
+#[4] subfinder
+wget https://github.com/projectdiscovery/subfinder/releases/download/v2.3.2/subfinder-linux-amd64.tar
+tar -C /bin -xvf subfinder-linux-amd64.tar && mv /bin/subfinder-linux-amd64 /bin/subfinder
 
-
-chmod 775 build.sh
-./build.sh
-cd build
-unzip subfinder*.zip
-cd ../../
-go get github.com/subfinder/subfinder
 
 #[5] dirsearch
 git clone https://github.com/maurosoria/dirsearch.git
@@ -209,16 +207,18 @@ git clone https://github.com/s0md3v/Photon.git
 pip3 install -r Photon/requirements.txt
 
 #[11] wayback
-https://github.com/Rhynorater/waybacktool.git
+wget https://github.com/Rhynorater/waybacktool/raw/master/waybacktool.py -o /bin/waybacktool.py
 
 #[11] aquatone screenshot
 wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip
 unzip aquatone_linux_amd64_1.7.0.zip
+cp aquatone /bin
 rm aquatone_linux_amd64_1.7.0.zip && rm  README.md && rm LICENSE.txt
 
 #[12]httprob
 wget https://github.com/tomnomnom/httprobe/releases/download/v0.1.2/httprobe-linux-amd64-0.1.2.tgz
 tar zxvf httprobe-linux-amd64-0.1.2.tgz
+mv httprobe /bin/httprobe
 rm httprobe-linux-amd64-0.1.2.tgz
 
 #[13] SubOver => takover
@@ -308,7 +308,7 @@ fi
 
 #[4]subfinder
 cd subfinder/build/
-if [[ ./subfinder ]]; then
+if [[ subfinder ]]; then
 	echo "subfinder installed successfully"
 else
 	echo "subfinder installation error :(" 
@@ -316,7 +316,7 @@ fi
 cd ../../
 
 #[5] aquatone
-if [[ `./aquatone -version` ]]; then
+if [[ `aquatone -version` ]]; then
 	echo "aquatone installed successfully"
 else
 	echo "aquatone installation error :(" 
